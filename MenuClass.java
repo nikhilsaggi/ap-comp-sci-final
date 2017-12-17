@@ -1,6 +1,8 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,6 +13,10 @@ public class MenuClass extends JPanel implements ActionListener {
 	// Creates variables to be toggled when buttons are clicked
 	boolean showInstructions = false;
 	boolean playHit = false;
+	int height = (int)(Toolkit.getDefaultToolkit().getScreenSize().height/1.5);
+	int width = (int)(Toolkit.getDefaultToolkit().getScreenSize().height/1.2);
+	int buttonWidth = width/3;
+	int buttonHeight = height/10;
 	
 	/** JPanel Constructor */
 	public MenuClass() {
@@ -18,12 +24,16 @@ public class MenuClass extends JPanel implements ActionListener {
 		setBackground(Color.BLACK);
 		setLayout(null);
 		setFocusable(true);	
-		
+		System.out.println(width);
 		// Creates JButtons
+		Font font = new Font("Dialog", Font.BOLD, width/40);
 		JButton playButton = new JButton("Play");
+		playButton.setFont(font);
 		JButton helpButton = new JButton("Instructions");
-		playButton.setBounds(300, 350, 200, 50);
-		helpButton.setBounds(300, 410, 200, 50);
+		helpButton.setFont(font);
+		playButton.setBounds(width/2-buttonWidth/2, (int)(height/2)-buttonHeight/2, buttonWidth, buttonHeight);
+		helpButton.setBounds(width/2-buttonWidth/2, (int)(height/2-buttonHeight/2+buttonHeight*1.2), 
+							 buttonWidth, buttonHeight);
 		playButton.addActionListener(this);
 		helpButton.addActionListener(this);
 		add(playButton);
@@ -34,10 +44,10 @@ public class MenuClass extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = e.getActionCommand();
 		// Changes a variable to indicate play button was pressed
-		if(actionCommand.equals("Play"))
+		if (actionCommand.equals("Play"))
 			playHit = true;
 		// Calls for instructions to be displayed
-		else if(actionCommand.equals("Instructions")) {
+		else if (actionCommand.equals("Instructions")) {
 			showInstructions = true;
 			repaint();
 		}
@@ -49,17 +59,17 @@ public class MenuClass extends JPanel implements ActionListener {
 		
 		// Creates title
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("TimesRoman", Font.PLAIN, 72));
-		g.drawString("Dodge the Ball", 175, 200);
+		g.setFont(new Font("TimesRoman", Font.PLAIN, width/8));
+		g.drawString("Dodge the Ball", width/8, height/4);
 		
 		// Creates instructions
-		if(showInstructions) {
+		if (showInstructions) {
 			g.setColor(Color.WHITE);
-			g.setFont(new Font("TimesRoman", Font.PLAIN, 24));
-			g.drawString("You are the white ball.", 300, 600);
-			g.drawString("Move with WASD or arrow keys.", 300, 625);
-			g.drawString("You have three lives.", 300, 650);
-			g.drawString("Don't touch the red balls!", 300, 675);
+			g.setFont(new Font("TimesRoman", Font.PLAIN, width/40));
+			g.drawString("You are the white ball.", (int)(width/2.8), (int)(height/1.4));
+			g.drawString("Move with WASD or arrow keys.", (int)(width/2.8), (int)(height/1.4+height*.03125));
+			g.drawString("You have three lives.", (int)(width/2.8), (int)(height/1.4+height*.0625));
+			g.drawString("Don't touch the red balls!", (int)(width/2.8), (int)(height/1.4+height*.09375));
 		}
 	}
 }
